@@ -8,6 +8,7 @@ RUN go build -o tigerbeetle_api .
 
 # Final stage - debian:slim has the libc we need
 FROM debian:bookworm-slim
+RUN ldd --version
 
 WORKDIR /app
 COPY --from=builder /app/tigerbeetle_api .
