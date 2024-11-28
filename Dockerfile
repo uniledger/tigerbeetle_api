@@ -7,7 +7,7 @@ COPY . .
 RUN go build -o tigerbeetle_api .
 
 # Final stage - debian:slim has the libc we need
-FROM debian:slim
+FROM debian:bullseye-slim
 
 WORKDIR /app
 COPY --from=builder /app/tigerbeetle_api .
