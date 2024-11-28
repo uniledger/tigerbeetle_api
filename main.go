@@ -17,7 +17,7 @@ import (
 )
 
 type Config struct {
-	Port             int    `default:"50051" yaml:"port" env:"PORT"`
+	Port             int    `default:"8000" yaml:"port" env:"PORT"`
 	Host             string `default:"0.0.0.0" yaml:"host" env:"HOST"`
 	TbClusterId      int    `default:"0" yaml:"tb_cluster_id" env:"TB_CLUSTER_ID"`
 	TbAddresses      string `required:"true" yaml:"tb_addresses" env:"TB_ADDRESSES"`
