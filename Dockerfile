@@ -1,15 +1,15 @@
-FROM golang:latest
+FROM golang:latest AS builder
 
 RUN apt install git
 
 WORKDIR /app
-
-# Step 1: Copy only dependency files
-COPY go.mod go.sum ./
-RUN go mod download
-
-# Step 2: Now copy source code
 COPY . .
 RUN go build -o tigerbeetle_api .
 
-ENTRYPOINT ./tigerbeetle_api
+# Final stage - debian:slim has the libc we need
+FROM debian:slim
+
+WORKDIR /app
+COPY --from=builder /app/tigerbeetle_api .
+
+ENTRYPOINT ["./tigerbeetle_api"]
