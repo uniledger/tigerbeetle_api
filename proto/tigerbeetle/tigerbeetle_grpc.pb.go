@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.28.1
-// source: proto/tigerbeetle.proto
+// source: proto/tigerbeetle/tigerbeetle.proto
 
 package proto
 
@@ -345,5 +345,5 @@ var TigerBeetle_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/tigerbeetle.proto",
+	Metadata: "proto/tigerbeetle/tigerbeetle.proto",
 }

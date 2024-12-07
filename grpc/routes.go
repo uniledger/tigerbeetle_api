@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/lil5/tigerbeetle_api/proto"
+	"github.com/lil5/tigerbeetle_api/proto/tigerbeetle"
 	"github.com/lil5/tigerbeetle_api/shared"
 
 	"github.com/samber/lo"
@@ -36,25 +36,47 @@ func (s *Server) CreateAccounts(ctx context.Context, in *proto.CreateAccountsReq
 		if err != nil {
 			return nil, err
 		}
+        debitsPending, err := shared.HexStringToUint128(inAccount.DebitsPending)
+        if err != nil {
+            return nil, err
+        }
+        debitsPosted, err := shared.HexStringToUint128(inAccount.DebitsPosted)
+        if err != nil {
+            return nil, err
+        }
+        creditsPending, err := shared.HexStringToUint128(inAccount.CreditsPending)
+        if err != nil {
+            return nil, err
+        }
+        creditsPosted, err := shared.HexStringToUint128(inAccount.CreditsPosted)
+        if err != nil {
+            return nil, err
+        }
+        userData128, err := shared.HexStringToUint128(inAccount.UserData128)
+        if err != nil {
+            return nil, err
+        }
+
+
 		flags := types.AccountFlags{
 			Linked:                     lo.FromPtrOr(inAccount.Flags.Linked, false),
 			DebitsMustNotExceedCredits: lo.FromPtrOr(inAccount.Flags.DebitsMustNotExceedCredits, false),
 			CreditsMustNotExceedDebits: lo.FromPtrOr(inAccount.Flags.CreditsMustNotExceedDebits, false),
 			History:                    lo.FromPtrOr(inAccount.Flags.History, false),
 		}
-		accounts = append(accounts, types.Account{
-			ID:             *id,
-			DebitsPending:  types.ToUint128(uint64(inAccount.DebitsPending)),
-			DebitsPosted:   types.ToUint128(uint64(inAccount.DebitsPosted)),
-			CreditsPending: types.ToUint128(uint64(inAccount.CreditsPending)),
-			CreditsPosted:  types.ToUint128(uint64(inAccount.CreditsPosted)),
-			UserData128:    types.ToUint128(uint64(inAccount.UserData128)),
-			UserData64:     uint64(inAccount.UserData64),
-			UserData32:     uint32(inAccount.UserData32),
-			Ledger:         uint32(inAccount.Ledger),
-			Code:           uint16(inAccount.Code),
-			Flags:          flags.ToUint16(),
-		})
+        accounts = append(accounts, types.Account{
+            ID:             *id,
+            DebitsPending:  *debitsPending,
+            DebitsPosted:   *debitsPosted,
+            CreditsPending: *creditsPending,
+            CreditsPosted:  *creditsPosted,
+            UserData128:    *userData128,
+            UserData64:     uint64(inAccount.UserData64),
+            UserData32:     uint32(inAccount.UserData32),
+            Ledger:         uint32(inAccount.Ledger),
+            Code:           uint16(inAccount.Code),
+            Flags:          flags.ToUint16(),
+        })
 	}
 
 	resp, err := s.TB.CreateAccounts(accounts)
@@ -81,6 +103,27 @@ func (s *Server) CreateTransfers(ctx context.Context, in *proto.CreateTransfersR
 		if err != nil {
 			return nil, err
 		}
+        debitAccountID, err := shared.HexStringToUint128(inTransfer.DebitAccountId)
+        if err != nil {
+            return nil, err
+        }
+        creditAccountID, err := shared.HexStringToUint128(inTransfer.CreditAccountId)
+        if err != nil {
+            return nil, err
+        }
+        pendingID, err := shared.HexStringToUint128(lo.FromPtrOr(inTransfer.PendingId, ""))
+        if err != nil {
+            return nil, err
+        }
+        amount, err := shared.HexStringToUint128(inTransfer.Amount)
+        if err != nil {
+            return nil, err
+        }
+        userData128, err := shared.HexStringToUint128(inTransfer.UserData128)
+        if err != nil {
+            return nil, err
+        }
+
 		flags := types.TransferFlags{
 			Linked:              lo.FromPtrOr(inTransfer.TransferFlags.Linked, false),
 			Pending:             lo.FromPtrOr(inTransfer.TransferFlags.Pending, false),
@@ -89,32 +132,21 @@ func (s *Server) CreateTransfers(ctx context.Context, in *proto.CreateTransfersR
 			BalancingDebit:      lo.FromPtrOr(inTransfer.TransferFlags.BalancingDebit, false),
 			BalancingCredit:     lo.FromPtrOr(inTransfer.TransferFlags.BalancingCredit, false),
 		}
-		debitAccountID, err := shared.HexStringToUint128(inTransfer.DebitAccountId)
-		if err != nil {
-			return nil, err
-		}
-		creditAccountID, err := shared.HexStringToUint128(inTransfer.CreditAccountId)
-		if err != nil {
-			return nil, err
-		}
-		pendingID, err := shared.HexStringToUint128(lo.FromPtrOr(inTransfer.PendingId, ""))
-		if err != nil {
-			return nil, err
-		}
+
 		transfers = append(transfers, types.Transfer{
-			ID:              *id,
-			DebitAccountID:  *debitAccountID,
-			CreditAccountID: *creditAccountID,
-			Amount:          types.ToUint128(uint64(inTransfer.Amount)),
-			PendingID:       *pendingID,
-			UserData128:     types.ToUint128(uint64(inTransfer.UserData128)),
-			UserData64:      uint64(inTransfer.UserData64),
-			UserData32:      uint32(inTransfer.UserData32),
-			Timeout:         0,
-			Ledger:          uint32(inTransfer.Ledger),
-			Code:            uint16(inTransfer.Ledger),
-			Flags:           flags.ToUint16(),
-			Timestamp:       0,
+            ID:              *id,
+            DebitAccountID:  *debitAccountID,
+            CreditAccountID: *creditAccountID,
+            Amount:          *amount,
+            PendingID:       *pendingID,
+            UserData128:     *userData128,
+            UserData64:      uint64(inTransfer.UserData64),
+            UserData32:      uint32(inTransfer.UserData32),
+            Timeout:         0,
+            Ledger:          uint32(inTransfer.Ledger),
+            Code:            uint16(inTransfer.Code),
+            Flags:           flags.ToUint16(),
+            Timestamp:       0,
 		})
 	}
 
