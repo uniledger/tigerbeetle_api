@@ -44,9 +44,18 @@
 ├── Makefile
 ├── project_structure.txt
 ├── proto
+│   ├── health
+│   │   ├── health_grpc.pb.go
+│   │   ├── health.pb.go
+│   │   └── health.proto
+│   ├── health_grpc.pb.go
+│   ├── health.pb.go
+│   ├── tigerbeetle
+│   │   ├── tigerbeetle_grpc.pb.go
+│   │   ├── tigerbeetle.pb.go
+│   │   └── tigerbeetle.proto
 │   ├── tigerbeetle_grpc.pb.go
-│   ├── tigerbeetle.pb.go
-│   └── tigerbeetle.proto
+│   └── tigerbeetle.pb.go
 ├── README.md
 ├── rest
 │   ├── convert.go
@@ -59,4 +68,4 @@
 ├── suite_e2e_test.go
 └── tigerbeetle.ts
 
-10 directories, 50 files
+12 directories, 57 files
