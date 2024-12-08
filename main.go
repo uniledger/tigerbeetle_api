@@ -17,12 +17,11 @@ import (
 func main() {
 	godotenv.Load()
 
-
 	tbClusterIdStr := os.Getenv("TB_CLUSTER_ID")
 	if tbClusterIdStr == "" {
 		tbClusterIdStr = "0"
 	}
-    tbClusterId, _ := strconv.ParseUint(tbClusterIdStr, 10, 64)
+	tbClusterId, _ := strconv.ParseUint(tbClusterIdStr, 10, 64)
 
 	if host := os.Getenv("HOST"); host == "" {
 		os.Setenv("HOST", "0.0.0.0")
