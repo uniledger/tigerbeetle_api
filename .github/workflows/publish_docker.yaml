@@ -7,6 +7,10 @@ on:
         description: 'Docker image tag (e.g., v1.0.0 or latest)'
         required: false
         default: 'latest'
+      branch:
+        description: 'Branch to build from'
+        required: false
+        default: 'main'
 
 permissions:
   contents: read
