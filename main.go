@@ -17,19 +17,22 @@ import (
 func main() {
 	godotenv.Load()
 
-	if port, _ := strconv.Atoi(os.Getenv("PORT")); port == 0 {
-		os.Setenv("PORT", "8000")
+
+	tbClusterIdStr := os.Getenv("TB_CLUSTER_ID")
+	if tbClusterIdStr == "" {
+		tbClusterIdStr = "0"
 	}
-	tbClusterId, _ := strconv.Atoi(os.Getenv("TB_CLUSTER_ID"))
+    tbClusterId, _ := strconv.ParseUint(tbClusterIdStr, 10, 64)
+
 	if host := os.Getenv("HOST"); host == "" {
 		os.Setenv("HOST", "0.0.0.0")
 	}
+
+	if os.Getenv("TB_ADDRESSES") == "" {
+		os.Setenv("TB_ADDRESSES", "127.0.0.1:3000")
+	}
 	tbAddressesArr := os.Getenv("TB_ADDRESSES")
 
-	if tbAddressesArr == "" {
-		slog.Error("tb_addresses is empty")
-		os.Exit(1)
-	}
 	tbAddresses := strings.Split(tbAddressesArr, ",")
 
 	slog.Info("Connecting to tigerbeetle cluster", "addresses", strings.Join(tbAddresses, ", "))
@@ -44,8 +47,14 @@ func main() {
 
 	// Create server
 	if os.Getenv("USE_GRPC") == "true" {
+		if port, _ := strconv.Atoi(os.Getenv("PORT")); port == 0 {
+			os.Setenv("PORT", "50051")
+		}
 		grpc.NewServer(tb)
 	} else {
+		if port, _ := strconv.Atoi(os.Getenv("PORT")); port == 0 {
+			os.Setenv("PORT", "8000")
+		}
 		rest.NewServer(tb)
 	}
 }
