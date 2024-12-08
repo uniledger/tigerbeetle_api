@@ -27,7 +27,7 @@ func NewServer(tb tigerbeetle_go.Client) {
 	r.POST("/account/transfers", s.GetAccountTransfers)
 	r.POST("/account/balances", s.GetAccountBalances)
 
-	slog.Info("Server listening at", "host", os.Getenv("HOST"), "port", os.Getenv("PORT"))
+	slog.Info("REST Server listening at", "host", os.Getenv("HOST"), "port", os.Getenv("PORT"))
 	defer slog.Info("Server exiting")
 
 	addr := fmt.Sprintf("%s:%s", os.Getenv("HOST"), os.Getenv("PORT"))
