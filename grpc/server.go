@@ -9,6 +9,7 @@ import (
 	"github.com/lil5/tigerbeetle_api/proto"
 	tigerbeetle_go "github.com/tigerbeetle/tigerbeetle-go"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"  
 )
 
 func NewServer(tb tigerbeetle_go.Client) {
@@ -19,6 +20,9 @@ func NewServer(tb tigerbeetle_go.Client) {
 		os.Exit(1)
 	}
 	proto.RegisterTigerBeetleServer(s, &Server{TB: tb})
+
+	reflection.Register(s)
+	
 	slog.Info("GRPC Server listening at", "address", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		slog.Error("Failed to serve:", "error", err)
