@@ -3,6 +3,7 @@
 .task
 .*.env
 .env
+*.bak
 /bruno/environments/*.bru
 /build
 
@@ -11,3 +12,4 @@
 !/bruno/environments/dev.bru
 !.gitkeep
 /tigerbeetle_api
+/config/VERSION.txt

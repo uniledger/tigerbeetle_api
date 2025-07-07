@@ -1,46 +1,46 @@
 {
   "transfers": [
     {
-      "id": "{{ faker.random.uuid }}",
-      "debitAccountId": "{{ faker.random.uuid }}",
-      "creditAccountId": "{{ faker.random.uuid }}",
-      "amount": "734",
-      "pendingId": "{{ faker.random.uuid }}",
+      "id": "{{math.random 1690000000 1700000000}}",
+      "debitAccountId": "2",
+      "creditAccountId": "3",
+      "amount": 734,
+      "pendingId": "",
       "userData128": "780",
-      "userData64": "470",
+      "userData64": 470,
       "userData32": 154,
-      "ledger": "74",
+      "ledger": 999,
       "code": 476,
       "transferFlags": {
         "linked": true,
-        "pending": true,
-        "postPendingTransfer": false,
-        "voidPendingTransfer": true,
-        "balancingDebit": false,
-        "balancingCredit": false
-      },
-      "timestamp": "product"
-    },
-    {
-      "id": "{{ faker.random.uuid }}",
-      "debitAccountId": "{{ faker.random.uuid }}",
-      "creditAccountId": "{{ faker.random.uuid }}",
-      "amount": "2",
-      "pendingId": "{{ faker.random.uuid }}",
-      "userData128": "938",
-      "userData64": "505",
-      "userData32": 906,
-      "ledger": "594",
-      "code": 30,
-      "transferFlags": {
-        "linked": false,
-        "pending": true,
+        "pending": false,
         "postPendingTransfer": false,
         "voidPendingTransfer": false,
         "balancingDebit": false,
-        "balancingCredit": true
+        "balancingCredit": false
       },
-      "timestamp": "synthesize haptic"
+      "timestamp": {{math.random 1690000000 1700000000}}
+    },
+    {
+      "id": "{{math.random 1690000000 1700000000}}",
+      "debitAccountId": "2",
+      "creditAccountId": "3",
+      "amount": 2,
+      "pendingId": "",
+      "userData128": "938",
+      "userData64": 505,
+      "userData32": 906,
+      "ledger": 999,
+      "code": 30,
+      "transferFlags": {
+        "linked": false,
+        "pending": false,
+        "postPendingTransfer": false,
+        "voidPendingTransfer": false,
+        "balancingDebit": false,
+        "balancingCredit": false
+      },
+      "timestamp": {{math.random 1690000000 1700000000}}
     }
   ]
 }

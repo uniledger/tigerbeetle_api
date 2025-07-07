@@ -19,7 +19,7 @@ body:json {
         "credit_account_id": "{{user_id_dest}}",
         "pending_id": null,
         "user_data_128": "18e55a6492e43873a3fe30bc0ae9087",
-        "user_data_64": "2024-03-19T08:42:30.389737637+01:00",
+        "user_data_64": {{userdata64}},
         "user_data_32": 3,
         "amount": 1000,
         "ledger": 1,
@@ -31,7 +31,14 @@ body:json {
 }
 
 vars:pre-request {
-  user_id_src: 18e51b35af7a506169d936d422eb94d
-  user_id_dest: 18e51dd94b69f6507d7f56d7568b08d
-  id: 18e51d37b2452e32feaca180b5ff123
+  user_id_src: 10
+  user_id_dest: 20
+}
+
+script:pre-request {
+  const moment = require("moment")
+  const unix = moment().unix();
+  const unixnano = moment().valueOf() * 1000000
+  bru.setEnvVar("id", unix);
+  bru.setEnvVar("userdata64", unixnano);
 }
